@@ -2,21 +2,29 @@
 
 class Employee extends CI_Controller{
     public function index(){
-        $strQuery = "SELECT id,
+        $data['content'] = 'admin/pegawai/v_pegawai';
+
+        $this->template->display($data);
+    }
+
+    public function form($prm_id = ''){
+        $this->load->view('admin/pegawai/v_pegawai_form');
+    }
+
+    public function dataPut(){
+        if($this->input->is_ajax_request()){
+            $strQuery = "SELECT id,
                         name,
                         coalesce(number, '') as number,
                         education,
                         phone_number
                         from employee";
 
-        $query = $this->db->query($strQuery);
-        $data['employee'] = $query->result_array();
+            $query = $this->db->query($strQuery);
+            $result = $query->result_array();
 
-        $this->load->view('admin/pegawai/v_pegawai', $data);
-    }
-
-    public function form($prm_id = ''){
-        $this->load->view('admin/pegawai/v_pegawai_form');
+            echo json_encode($result);
+        }
     }
 }
 

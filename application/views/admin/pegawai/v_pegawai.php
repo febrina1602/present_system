@@ -1,71 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<div class="col-lg-12">
+    <div class="table-responsive">
+        <!-- ini akan tampil ketika data yang diterima kosong -->
+        <div class="alert alert-danger error-message">Maaf, belum ada data</div>
+        <!-- ini akan tampil ketika data yang diterima tidak kosong -->
+        <table class="table table-striped" id="tableData" style="display: none">
+            <thead>
+                <tr>
+                    <th> NIP </th>
+                    <th> Nama </th>
+                    <th> Pendidikan </th>
+                    <th> Nomor HP </th>
+                </tr>
+            </thead>
 
-    <link rel="stylesheet" href="<?= site_url() ?>/assets/bootstrap-4.6.2/css/bootstrap.min.css">
-</head>
-<body>
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mt-2">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <!-- <a class="navbar-brand" href="#">Presensi</a> -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= site_url() ?>admin/employee"> Data Pegawai </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> Kehadiran </a>
-                    </li>
-                    </ul>
-                </div>
-            </nav>
-            </div>
-        </div>
+            <tbody id="showData">
 
-        <div class="row mt-3">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th> NIP </th>
-                                <th> Nama </th>
-                                <th> Pendidikan </th>
-                                <th> Nomor HP </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php foreach($employee as $row){ ?>
-                                <tr>
-                                    <td><?= $row['number'] ?></td>
-                                    <td><a href="<?= site_url() ?>admin/employee/form/<?= $row['id'] ?>"><?= $row['name'] ?></a></td>
-                                    <td><?= $row['education'] ?></td>
-                                    <td><?= $row['phone_number'] ?></td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    
+<script>
+    // mengambil data pegawai dari controller via AJAX
+    const getData = () => {
+        $.ajax({
+            url: "<?= site_url() ?>admin/employee/dataPut",
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(data) {
+                let html = ''
 
-    <script src="<?= site_url() ?>/assets/bootstrap-4.6.2/css/bootstrap.min.css"></script>
-</body>
-</html>
+                if(data.length > 0){
+                    $('#tableData').show()
+                    $('.error-message').hide()
+
+                    for (let i = 0; i < data.length; i++) {
+                        html += `
+                                <tr>
+                                    <td>${data[i]['number']}</td>
+                                    <td><a href="${"<?= site_url() ?>admin/employee/form/"+data[i]['id']}">${data[i]['name']}</a></td>
+                                    <td>${data[i]['education']}</td>
+                                    <td>${data[i]['phone_number']}</td>
+                                </tr>
+                            `
+                    }
+
+                    // disini data yang sudah diolah ditampilkan ke table
+                    $('#showData').html(html)
+                }else{
+                    $('#tableData').hide()
+                    $('.error-message').show()
+                }
+
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        getData()
+    })
+</script>
