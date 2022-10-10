@@ -13,6 +13,12 @@ class Dashboard extends CI_Controller{
 
         $this->template->display($data);
     }
+
+    public function logout(){
+        $this->M_login->_logout();
+
+        redirect('/');
+    }
 }
 
 ?>

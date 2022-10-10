@@ -14,7 +14,7 @@ CREATE TABLE employee(
 	education VARCHAR(150) DEFAULT NULL,
 	address TEXT DEFAULT NULL,
 	phone_number CHARACTER VARYING(15) DEFAULT NULL,
-	LEVEL CHARACTER VARYING(15) DEFAULT NULL,
+	level CHARACTER VARYING(15) DEFAULT NULL,
 	created_date DATETIME DEFAULT CURRENT_TIMESTAMP(),
 	created_by VARCHAR(30) DEFAULT 'SYSTEM'
 );
@@ -71,3 +71,8 @@ ADD COLUMN gender VARCHAR(20) NOT NULL AFTER birth_date;
 INSERT INTO employee VALUES(2022001, 'admin', NULL, '2005-02-16', 'Wanita', 'SMK', NULL, NULL, 'IVA', CURRENT_TIMESTAMP(), 'SYSTEM');
 update user set access = 'admin' where employee__id = 2022001;
 
+ALTER TABLE attendance
+add column status varchar(10) default 'Alpha' after attachment;
+
+INSERT INTO shift(name, time_start, time_end)
+values('Shift Normal', '06:45', '17:30');

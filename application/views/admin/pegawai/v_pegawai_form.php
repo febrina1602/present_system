@@ -1,7 +1,7 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-header">
-            <h3>Form Tambah Pegawai</h3>
+            <h3><?= $title ?></h3>
         </div>
         <!-- awal form pegawai -->
         <form class="form-horizontal" id="frmModal">
@@ -22,6 +22,15 @@
                     </div>
                     <div class="col-lg-9">
                         <input type="text" name="name" id="name" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-lg-3">
+                        <label class="col-form-label"> NIP </label>
+                    </div>
+                    <div class="col-lg-9">
+                        <input type="text" name="number" id="number" class="form-control" required>
                     </div>
                 </div>
 
@@ -136,6 +145,7 @@
 
             $('#id').val(employeeData.id)
             $('#name').val(employeeData.name)
+            $('#number').val(employeeData.number)
             $('#gender').val(employeeData.gender)
             $('#birthDate').val(employeeData.birthDate)
             $('#phoneNumber').val(employeeData.phoneNumber)

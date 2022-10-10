@@ -10,6 +10,7 @@ class Employee extends CI_Controller{
 
     // meload view untuk menampilkan daftar pegawai
     public function index(){
+        $data['title'] = 'Daftar Pegawai';
         $data['content'] = 'admin/pegawai/v_pegawai'; //file view yang akan di load ada didalam folder views
 
         $this->template->display($data);
@@ -21,6 +22,7 @@ class Employee extends CI_Controller{
     */
 
     public function form($id = ''){
+        $data['title'] = 'Form Pegawai';
         $data['content'] = 'admin/pegawai/v_pegawai_form'; //file view yang akan di load ada didalam folder views
         $data['employeeData'] = '';
         $data['id'] = $id;

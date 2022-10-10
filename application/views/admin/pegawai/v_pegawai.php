@@ -1,7 +1,10 @@
 <div class="col-lg-12">
     <!-- tombol add -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
+            <h3><?= $title ?></h3>
+        </div>
+        <div class="col-lg-6">
             <a href="<?= site_url() ?>admin/employee/form" class="btn btn-primary float-right"> Tambah </a>
         </div>
     </div>
