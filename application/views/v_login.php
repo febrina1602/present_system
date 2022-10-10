@@ -87,7 +87,7 @@
                                     // disini akan berjalan ketika tombol oke di click
 
                                     // redirect page ke dashboard
-                                    window.location.replace("<?= site_url() ?>/admin/dashboard")
+                                    window.location.replace("<?= site_url() ?>admin/dashboard")
                                 })
                             } else {
                                 Swal.fire({

@@ -11,11 +11,10 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- meload navbar -->
-        <div class="row">
-            <?php $this->load->view('admin/layouts/navbar'); ?>
-        </div>
+    <!-- meload navbar -->
+    <?php $this->load->view('admin/layouts/navbar'); ?>
+    
+    <div class="container-fluid">
         <!-- meload content -->
         <section>
             <div class="row mt-3">

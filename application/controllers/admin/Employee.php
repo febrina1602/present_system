@@ -8,7 +8,9 @@ class Employee extends CI_Controller{
     }
 
     public function form($prm_id = ''){
-        $this->load->view('admin/pegawai/v_pegawai_form');
+        $data['content'] = 'admin/pegawai/v_pegawai_form';
+
+        $this->template->display($data);
     }
 
     public function dataPut(){
@@ -16,8 +18,8 @@ class Employee extends CI_Controller{
             $strQuery = "SELECT id,
                         name,
                         coalesce(number, '') as number,
-                        education,
-                        phone_number
+                        coalesce(education, '') as education,
+                        coalesce(phone_number, '') as phone_number
                         from employee";
 
             $query = $this->db->query($strQuery);

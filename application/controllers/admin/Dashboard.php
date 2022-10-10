@@ -9,7 +9,7 @@ class Dashboard extends CI_Controller{
 
     public function index(){
         // $data['content'] = 'admin/v_dashboard'; //file view yang akan di load ada didalam folder views
-        $data['content'] = 'admin/pegawai/v_pegawai'; //file view yang akan di load ada didalam folder views
+        $data['content'] = 'admin/v_dashboard'; //file view yang akan di load ada didalam folder views
 
         $strQuery = "SELECT id,
                         name,

@@ -1,5 +1,12 @@
 <div class="col-lg-12">
-    <div class="table-responsive">
+    <!-- tombol add -->
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="<?= site_url() ?>admin/employee/form" class="btn btn-primary float-right"> Tambah </a>
+        </div>
+    </div>
+
+    <div class="table-responsive mt-4">
         <!-- ini akan tampil ketika data yang diterima kosong -->
         <div class="alert alert-danger error-message">Maaf, belum ada data</div>
         <!-- ini akan tampil ketika data yang diterima tidak kosong -->
@@ -47,6 +54,7 @@
 
                     // disini data yang sudah diolah ditampilkan ke table
                     $('#showData').html(html)
+                    $('#tableData').dataTable()
                 }else{
                     $('#tableData').hide()
                     $('.error-message').show()
