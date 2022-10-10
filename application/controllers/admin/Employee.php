@@ -147,7 +147,7 @@ class Employee extends CI_Controller{
             ];
 
             try{
-                if($this->input->post('add')){
+                if($this->input->post('method') === 'add'){
                     $this->db->insert('employee', $data);
                 }else{
                     $this->db->where(array('id' => $id));
