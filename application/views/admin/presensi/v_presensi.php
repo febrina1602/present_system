@@ -19,13 +19,13 @@
                             <?php if(!is_null($todayPresence->timeIn)){ ?>
                                 <td><?= $todayPresence->timeIn ?></td>
                             <?php }else{ ?>
-                                <td><a href="<?= site_url() ?>admin/presensi/form/1" class="btn btn-primary"> Absen </a></td>
+                                <td><a href="<?= site_url() ?>admin/presence/form/1" class="btn btn-primary"> Absen </a></td>
                             <?php } ?>
 
                             <?php if(!is_null($todayPresence->timeOut)){ ?>
                                 <td><?= $todayPresence->timeOut ?></td>
                             <?php }else{ ?>
-                                <td><a href="<?= site_url() ?>admin/presensi/form/2" class="btn btn-primary"> Absen </a></td>
+                                <td><a href="<?= site_url() ?>admin/presence/form/2" class="btn btn-primary"> Absen </a></td>
                             <?php } ?>
                         </tr>
                     </tbody>
