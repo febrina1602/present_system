@@ -11,24 +11,41 @@
                                 </div>
                                 <div class="card-body">
                                     <form id="frmPresence">
-                                        <div class="row">
-                                            <div class="col-lg-12 d-flex justify-content-center">
-                                                <button type="button" class="btn btn-info" id="btnScan">Pindai Sekarang</button>
-                                                <div class="spinner-border text-info" role="status" id="loading" style="display: none;">
-                                                    <span class="sr-only">Loading...</span>
+                                        <div class="qrcode-form">
+                                            <div class="row">
+                                                <div class="col-lg-12 d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-info" id="btnScan">Pindai Sekarang</button>
+                                                    <div class="spinner-border text-info" role="status" id="loading" style="display: none;">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-lg-12 d-flex flex-column align-items-center">
+                                                    <div id="qr-reader" style="width:500px"></div>
+                                                    <div id="qr-reader-results"></div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="d-none">
+                                                <input type="text" name="longitude" id="longitude">
+                                                <input type="text" name="latitude" id="latitude">
+                                                <input type="text" name="functionKey" id="functionKey" value="<?= $functionkey ?>">
+                                            </div>
+    
+                                            <div class="row mt-2">
+                                                <div class="col-lg-12 d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-danger" id="btnStop" style="display: none;">Batal</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-2">
-                                            <div class="col-lg-12 d-flex flex-column align-items-center">
-                                                <div id="qr-reader" style="width:500px"></div>
-                                                <div id="qr-reader-results"></div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row mt-2">
-                                            <div class="col-lg-12 d-flex justify-content-center">
-                                                <button type="button" class="btn btn-danger" id="btnStop" style="display: none;">Batal</button>
+                                        <div class="photo-form" style="display: none">
+                                            <div class="row mt-2">
+                                                <input type="file" accept="image/*" capture="camera" />
+                                            </div>
+                                            <div class="row mt-2">
+                                                <button type="submit" class="d-none btn btn-danger" id="btnSave" style="display: none;">Batal</button>
                                             </div>
                                         </div>
                                     </form>
@@ -54,6 +71,24 @@
     }
 
     $(document).ready(function() {
+        const currentLatitude = -6.203072698048657
+        const currentLongitude = 107.01945306759832
+        /*const defaultLatlong = [];
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                defaultLatlong.push(position.coords.latitude);
+                defaultLatlong.push(position.coords.longitude);
+            }, () => {
+                defaultLatlong.push(-6.1767);
+                defaultLatlong.push(106.8263);
+            }, {
+                maximumAge: 10000,
+                timeout: 5000,
+                enableHighAccuracy: true
+            });
+        }*/
+
         docReady(function() {
             const resultContainer = $('#qr-reader-results')
             let lastResult, countResults = 0
@@ -63,13 +98,45 @@
                     ++countResults
                     lastResult = decodedText
 
-                    console.log(`Scan result ${decodedText}`, decodedResult)
+                    const longlat = decodedResult.decodedText.split(', ')
+                    const latitude = longlat[0]
+                    const longitude = longlat[1]
+
+                    const x = 111.12 * (latitude - currentLatitude)
+                    const y = 111.12 * (longitude - currentLongitude) * Math.cos(latitude / 92.215)
+                    const coordinates = Math.sqrt((x * x) + (y * y))
+
+                    if(parseFloat(coordinates) > parseFloat(0.01)){
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Anda diluar radius SMKN 5'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses'
+                        })
+
+                        $('#longitude').val(longitude)
+                        $('#latitude').val(latitude)
+
+                        $('.qrcode-form').hide()
+                        $('.photo-form').show()
+                        $('#btnStop').click()
+                    }
+                    // console.log(`Scan result ${decodedText}`, decodedResult)
+
+                    /*
+                        x = 111.12 * (latwo::float - p_latitude);
+                        y = 111.12 * (lonwo::float - p_longitude) * cos(latwo::float / 92.215);
+                        geoloc := sqrt(x * x + y * y);
+                    */
                 }
             }
 
             const html5Qrcode = new Html5Qrcode("qr-reader")
-            
-            
+
+
             $('#btnScan').on('click', async function(e) {
                 $(this).hide()
                 $('#loading').show()
@@ -85,11 +152,13 @@
                 $('#btnStop').show()
             })
 
-            $('#btnStop').on('click', function(){
+            $('#btnStop').on('click', function() {
                 html5Qrcode.stop()
                 $(this).hide()
                 $('#btnScan').show()
             })
+
+            navigator.mediaDevices.getUserMedia({video: true})
 
             // const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
             //     fps: 10,

@@ -10,8 +10,14 @@ class Employee extends CI_Controller{
 
     // meload view untuk menampilkan daftar pegawai
     public function index(){
+        $access = $this->session->userdata('access');
+
         $data['title'] = 'Daftar Pegawai';
-        $data['content'] = 'admin/pegawai/v_pegawai'; //file view yang akan di load ada didalam folder views
+        if($access !== 'admin'){
+            redirect('admin/employee/form/'.$this->session->userdata('employeeId'));
+        }else{
+            $data['content'] = 'admin/pegawai/v_pegawai'; //file view yang akan di load ada didalam folder views
+        }
 
         $this->template->display($data);
     }
@@ -65,16 +71,19 @@ class Employee extends CI_Controller{
         if($this->input->is_ajax_request()){
             // cek akses user yang login
             $access = $this->session->userdata('userAccess');
-            $strQuery = "SELECT id,
-                        name,
+            $strQuery = "SELECT a.id,
+                        a.name,
                         coalesce(number, '') as number,
                         coalesce(education, '') as education,
                         coalesce(phone_number, '') as phone_number
-                        from employee";
+                        from employee a
+                        left join user b on a.id = b.employee__id";
 
             if($access !== 'admin'){
-                $strQuery .= "WHERE id = ".$this->session->userdata('userId');
+                $strQuery .=  " WHERE b.id = ".$this->session->userdata('userId');
             }
+
+            // print_r($strQuery); exit;
 
             $query = $this->db->query($strQuery);
             $result = $query->result_array();

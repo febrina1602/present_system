@@ -12,8 +12,9 @@ class Home extends CI_Controller{
             $password = $this->input->post('password');
             
             // query untuk check username dan password
-            $this->db->select("id, username, access");
-            $this->db->from("user");
+            $this->db->select("a.id, username, access, employee__id");
+            $this->db->from("user a");
+            // $this->db->join("employee b", 'a.employee__id = b.id', 'left');
             $this->db->where("username = '$username' and password = '".md5($password)."'");
             // querynya dijalankan
             $check = $this->db->get();
@@ -22,6 +23,7 @@ class Home extends CI_Controller{
                 $dataUser = [
                     'userId' => $check->row('id'),
                     'username' => $check->row('username'),
+                    'employeeId' => $check->row('employee__id'),
                     'userAccess' => $check->row('access'),
                     'loginStat' => true
                 ];

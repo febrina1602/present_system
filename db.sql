@@ -76,3 +76,11 @@ add column status varchar(10) default 'Alpha' after attachment;
 
 INSERT INTO shift(name, time_start, time_end)
 values('Shift Normal', '06:45', '17:30');
+
+-- running dari sini 2
+
+ALTER TABLE attendance
+CHANGE `latitude` `latitude_in` VARCHAR(100),
+CHANGE longitude longitude_in VARCHAR(100),
+ADD COLUMN latitude_out VARCHAR(100) AFTER longitude_in,
+ADD COLUMN longitude_out VARCHAR(100) AFTER latitude_out;
