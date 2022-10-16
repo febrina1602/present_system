@@ -10,7 +10,7 @@ class Employee extends CI_Controller{
 
     // meload view untuk menampilkan daftar pegawai
     public function index(){
-        $access = $this->session->userdata('access');
+        $access = $this->session->userdata('userAccess');
 
         $data['title'] = 'Daftar Pegawai';
         if($access !== 'admin'){
