@@ -26,13 +26,13 @@
                                                     <div id="qr-reader-results"></div>
                                                 </div>
                                             </div>
-    
+
                                             <div class="d-none">
                                                 <input type="text" name="longitude" id="longitude">
                                                 <input type="text" name="latitude" id="latitude">
                                                 <input type="text" name="functionKey" id="functionKey" value="<?= $functionkey ?>">
                                             </div>
-    
+
                                             <div class="row mt-2">
                                                 <div class="col-lg-12 d-flex justify-content-center">
                                                     <button type="button" class="btn btn-danger" id="btnStop" style="display: none;">Batal</button>
@@ -42,7 +42,7 @@
 
                                         <div class="photo-form" style="display: none">
                                             <div class="row mt-2">
-                                                <input type="file" accept="image/*" capture="camera" />
+                                                <input type="file" accept="image/*;capture=camera">
                                             </div>
                                             <div class="row mt-2">
                                                 <button type="submit" class="d-none btn btn-danger" id="btnSave" style="display: none;">Batal</button>
@@ -70,24 +70,28 @@
         }
     }
 
+    function success(position) {
+        const coordinates = position.coords
+        console.log(coordinates)
+
+        // console.log(`${coordinates.latitude} - ${coordinates.longitude}`)
+    }
+
+    function error(err) {
+        console.warn(`${err.code}: ${err.message}`)
+    }
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    }
+
     $(document).ready(function() {
         const currentLatitude = -6.203072698048657
         const currentLongitude = 107.01945306759832
-        /*const defaultLatlong = [];
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                defaultLatlong.push(position.coords.latitude);
-                defaultLatlong.push(position.coords.longitude);
-            }, () => {
-                defaultLatlong.push(-6.1767);
-                defaultLatlong.push(106.8263);
-            }, {
-                maximumAge: 10000,
-                timeout: 5000,
-                enableHighAccuracy: true
-            });
-        }*/
+        navigator.geolocation.getCurrentPosition(success, error, options)
 
         docReady(function() {
             const resultContainer = $('#qr-reader-results')
@@ -106,12 +110,12 @@
                     const y = 111.12 * (longitude - currentLongitude) * Math.cos(latitude / 92.215)
                     const coordinates = Math.sqrt((x * x) + (y * y))
 
-                    if(parseFloat(coordinates) > parseFloat(0.01)){
+                    if (parseFloat(coordinates) > parseFloat(0.01)) {
                         Swal.fire({
                             icon: 'warning',
                             title: 'Anda diluar radius SMKN 5'
                         })
-                    }else{
+                    } else {
                         Swal.fire({
                             icon: 'success',
                             title: 'Sukses'
@@ -157,8 +161,6 @@
                 $(this).hide()
                 $('#btnScan').show()
             })
-
-            navigator.mediaDevices.getUserMedia({video: true})
 
             // const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
             //     fps: 10,
