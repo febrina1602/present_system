@@ -62,6 +62,7 @@
 <script src="<?= site_url() ?>assets/qrcodescanner/qrcode-scanner.js" type="text/javascript"></script>
 
 <script>
+    const locations = {}
     function docReady(fn) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
             setTimeout(fn, 1)
@@ -72,7 +73,10 @@
 
     function success(position) {
         const coordinates = position.coords
-        console.log(coordinates)
+
+        locations.longitude = coordinates.longitude
+        locations.latitude = coordinates.latitude
+        // alert(`${coordinates.latitude} - ${coordinates.longitude}`)
 
         // console.log(`${coordinates.latitude} - ${coordinates.longitude}`)
     }
@@ -83,15 +87,19 @@
 
     const options = {
         enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
+        timeout: 10000,
+        maximumAge: 5000
     }
 
-    $(document).ready(function() {
-        const currentLatitude = -6.203072698048657
-        const currentLongitude = 107.01945306759832
+    $(document).ready(async function() {
+        // const currentLatitude = -6.203072698048657
+        // const currentLongitude = 107.01945306759832
 
-        navigator.geolocation.getCurrentPosition(success, error, options)
+        await navigator.geolocation.getCurrentPosition(success, error, options)
+
+        const currentLatitude = locations.latitude
+        const currentLongitude = locations.longitude
+        console.log(currentLatitude)
 
         docReady(function() {
             const resultContainer = $('#qr-reader-results')
@@ -109,6 +117,7 @@
                     const x = 111.12 * (latitude - currentLatitude)
                     const y = 111.12 * (longitude - currentLongitude) * Math.cos(latitude / 92.215)
                     const coordinates = Math.sqrt((x * x) + (y * y))
+                    console.log(coordinates)
 
                     if (parseFloat(coordinates) > parseFloat(0.01)) {
                         Swal.fire({
