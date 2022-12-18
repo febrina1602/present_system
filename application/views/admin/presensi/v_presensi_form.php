@@ -42,10 +42,15 @@
 
                                         <div class="photo-form" style="display: none">
                                             <div class="row mt-2">
-                                                <input type="file" accept="image/*;capture=camera">
+                                                <input type="file" accept="image/*;capture=camera" id="photo">
                                             </div>
+
                                             <div class="row mt-2">
-                                                <button type="submit" class="d-none btn btn-danger" id="btnSave" style="display: none;">Batal</button>
+                                                <img src="" class="img-fluid" id="imageFrame">    
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <button type="submit" class="d-none btn btn-danger" id="btnSave" style="display: none;">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -189,6 +194,40 @@
             // html5QrcodeScanner.render(onScanSuccess)
             // $('#qr-reader__camera_permission_button').addClass('btn').addClass('btn-info')
 
+        })
+
+        $('#photo').on('change', function(e){
+            const files = e.target.files[0]
+            console.log(console.log(files.type))
+            const allowedFile = ['image/png', 'image/jpg', 'image/jpeg']
+            let isValid = false
+
+            allowedFile.map((entry, i) => {
+                if(entry === files.type){
+                    isValid = true
+                }
+            })
+
+            if(!isValid){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Format file yang anda unggah tidak didukung'
+                }).then(()=> {
+                    $(this).val('')
+                })
+
+                return
+            }
+
+            const reader = new FileReader()
+            reader.onload = function(e){
+                $('#imageFrame').attr('src', e.target.result)
+            }
+
+            reader.readAsDataURL(files)
+
+            $('#btnSave').removeClass('d-none')
+            $('#btnSave').show()
         })
     })
 </script>

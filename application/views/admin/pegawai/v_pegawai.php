@@ -79,7 +79,14 @@
                             "<'row'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
                         // dom: 'Bfrtip',
-                        buttons: ['excel']
+                        buttons: [
+                            //'copy',
+                            {
+                                extend: 'excel',
+                                title: 'Daftar Pegawai SMK Negeri 5 Kota Bekasi',
+                                // messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
+                            }
+                        ]
                     })
 
                     $('.dt-button').addClass('btn').addClass('btn-success')
