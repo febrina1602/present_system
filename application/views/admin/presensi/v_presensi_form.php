@@ -14,7 +14,7 @@
                                         <div class="qrcode-form">
                                             <div class="row">
                                                 <div class="col-lg-12 d-flex justify-content-center">
-                                                    <button type="button" class="btn btn-info" id="btnScan">Pindai Sekarang</button>
+                                                    <button type="button" class="btn" style="background-color:#476788;color: #fff" id="btnScan">Pindai Sekarang</button>
                                                     <div class="spinner-border text-info" role="status" id="loading" style="display: none;">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
@@ -50,7 +50,7 @@
                                             </div>
 
                                             <div class="row mt-2">
-                                                <button type="submit" class="d-none btn btn-danger" id="btnSave" style="display: none;">Save</button>
+                                                <button type="submit" class="d-none btn btn-success" id="btnSave" style="display: none;">Save</button>
                                             </div>
                                         </div>
                                     </form>
