@@ -99,7 +99,6 @@
 
         const currentLatitude = locations.latitude
         const currentLongitude = locations.longitude
-        console.log(currentLatitude)
 
         docReady(function() {
             const resultContainer = $('#qr-reader-results')
@@ -148,6 +147,17 @@
             }
 
             const html5Qrcode = new Html5Qrcode("qr-reader")
+
+            Html5Qrcode.getCameras().then(devices => {
+                if(devices && devices.length){
+                    var cameraId = devices[0]
+                }
+            }).catch(err => {
+                console.error(err)
+                alert(`Don't have any access to the cameras`)
+            })
+
+            console.log(cameraId)
 
 
             $('#btnScan').on('click', async function(e) {
