@@ -46,6 +46,9 @@ class Employee extends CI_Controller{
                             number,
                             birth_date as \"birthDate\",
                             gender,
+                            nik,
+                            kk,
+                            birthPlace as \"birthPlace\",
                             education,
                             address,
                             phone_number as \"phoneNumber\",
@@ -75,7 +78,14 @@ class Employee extends CI_Controller{
                         a.name,
                         coalesce(number, '') as number,
                         coalesce(education, '') as education,
-                        coalesce(phone_number, '') as phone_number
+                        coalesce(phone_number, '') as phone_number,
+                        gender,
+                        nik,
+                        kk,
+                        birthPlace as \"birthPlace\",
+                        address,
+                        level,
+                        birth_date as \"birth_date\"
                         from employee a
                         left join user b on a.id = b.employee__id";
 
@@ -152,7 +162,10 @@ class Employee extends CI_Controller{
                 'education' => $this->input->post('education'),
                 'phone_number' => $this->input->post('phoneNumber'),
                 'level' => $this->input->post('level'),
-                'address' => trim($this->input->post('address')) === "" ? null : $this->input->post('address')
+                'address' => trim($this->input->post('address')) === "" ? null : $this->input->post('address'),
+                'nik' => $this->input->post('nik'),
+                'kk' => $this->input->post('kk'),
+                'birthPlace' => $this->input->post('birthPlace'),
             ];
 
             try{

@@ -16,10 +16,19 @@
         <table class="table table-striped" id="tableData" style="display: none">
             <thead>
                 <tr>
+                    <th>ID Pegawai</th>
                     <th> NIP </th>
                     <th> Nama </th>
+                    <th> NIK </th>
+                    <th> Nomor KK </th>
+                    <th> Jenis Kelamin </th>
+                    <th> Tempat Lahir </th>
+                    <th> Tanggal Lahir </th>
                     <th> Pendidikan </th>
+                    <th> Golongan </th>
+                    <th> Alamat </th>
                     <th> Nomor HP </th>
+
                 </tr>
             </thead>
 
@@ -47,9 +56,17 @@
                     for (let i = 0; i < data.length; i++) {
                         html += `
                                 <tr>
+                                    <td>${data[i]['id']}</td>
                                     <td>${data[i]['number']}</td>
                                     <td><a href="${"<?= site_url() ?>admin/employee/form/"+data[i]['id']}">${data[i]['name']}</a></td>
+                                    <td>${data[i]['nik']}</td>
+                                    <td>${data[i]['kk']}</td>
+                                    <td>${data[i]['gender']}</td>
+                                    <td>${data[i]['birthPlace']}</td>
+                                    <td>${data[i]['birth_date']}</td>
                                     <td>${data[i]['education']}</td>
+                                    <td>${data[i]['level']}</td>
+                                    <td>${data[i]['address']}</td>
                                     <td>${data[i]['phone_number']}</td>
                                 </tr>
                             `
@@ -57,7 +74,15 @@
 
                     // disini data yang sudah diolah ditampilkan ke table
                     $('#showData').html(html)
-                    $('#tableData').dataTable()
+                    $('#tableData').dataTable({
+                        dom: "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                        // dom: 'Bfrtip',
+                        buttons: ['excel']
+                    })
+
+                    $('.dt-button').addClass('btn').addClass('btn-success')
                 }else{
                     $('#tableData').hide()
                     $('.error-message').show()

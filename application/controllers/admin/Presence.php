@@ -31,7 +31,7 @@ class Presence extends CI_Controller{
         $this->template->display($data);
     }
 
-    public function form($functionkey = '1'){
+    public function form($functionkey = '1'){  
         $data['title'] = 'Presensi';
         $data['content'] = 'admin/presensi/v_presensi_form';
         $data['functionkey'] = $functionkey;

@@ -33,6 +33,22 @@
                         <input type="text" name="number" id="number" class="form-control" required>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-lg-3">
+                        <label class="col-form-label"> NIK </label>
+                    </div>
+                    <div class="col-lg-9">
+                        <input type="text" name="nik" id="nik" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-3">
+                        <label class="col-form-label"> No. KK </label>
+                    </div>
+                    <div class="col-lg-9">
+                        <input type="text" name="kk" id="kk" class="form-control" required>
+                    </div>
+                </div>
 
                 <div class="row mt-3">
                     <div class="col-lg-3">
@@ -47,7 +63,14 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="row mt-3">
+                    <div class="col-lg-3">
+                        <label class="col-form-label"> Tempat Lahir </label>
+                    </div>
+                    <div class="col-lg-9">
+                        <input type="text" name="birthPlace" id="birthPlace" class="form-control" required>
+                    </div>
+                </div>
                 <div class="row mt-3">
                     <div class="col-lg-3">
                         <label class="col-form-label"> Tanggal Lahir </label>
@@ -89,6 +112,11 @@
                     <div class="col-lg-9">
                         <select name="level" id="level" class="form-control" required>
                             <option value="">- pilih level -</option>
+                            <option value="IIA"> IIA </option>
+                            <option value="IIB"> IIB </option>
+                            <option value="IIC"> IIC </option>
+                            <option value="IID"> IID </option>
+                            <option value="IIE"> IIE </option>
                             <option value="IIIA"> IIIA </option>
                             <option value="IVA"> IVA </option>
                         </select>
@@ -146,7 +174,10 @@
             $('#id').val(employeeData.id)
             $('#name').val(employeeData.name)
             $('#number').val(employeeData.number)
+            $('#nik').val(employeeData.nik)
+            $('#kk').val(employeeData.kk)
             $('#gender').val(employeeData.gender)
+            $('#birthPlace').val(employeeData.birthPlace)
             $('#birthDate').val(employeeData.birthDate)
             $('#phoneNumber').val(employeeData.phoneNumber)
             $('#education').val(employeeData.education)
@@ -160,6 +191,7 @@
 
         // menyimpan data ketika tombol di click
         $('#btnSave').on('click', function(e){
+            // console.log(e)
             $('#frmModal').validate({
                 submitHandler: function(){
                     // untuk mencegah window tereload ketika tombol di click
