@@ -83,7 +83,7 @@ class Employee extends CI_Controller{
                         nik,
                         kk,
                         birthPlace as \"birthPlace\",
-                        address,
+                        coalesce(address, '') as address,
                         level,
                         birth_date as \"birth_date\"
                         from employee a

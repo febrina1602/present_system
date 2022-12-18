@@ -157,7 +157,7 @@
                 alert(`Don't have any access to the cameras`)
             })
 
-            console.log(cameraId)
+            // console.log(cameraId)
 
 
             $('#btnScan').on('click', async function(e) {
