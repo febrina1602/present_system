@@ -1,8 +1,5 @@
 <div class="col-lg-12">
     <div class="card">
-        <div class="card-header">
-            <h3><?= $title ?></h3>
-        </div>
         <!-- awal form pegawai -->
         <form class="form-horizontal" id="frmModal">
             <div class="card-body">

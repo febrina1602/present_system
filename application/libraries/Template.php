@@ -9,7 +9,7 @@ class Template{
 
     public function display($data){
 
-        $this->_ci->load->view('admin/layouts/base_view', $data);
+        $this->_ci->load->view('admin/layouts/adminlte_baseview', $data);
     }
 }
 
