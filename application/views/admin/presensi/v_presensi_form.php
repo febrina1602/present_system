@@ -46,11 +46,11 @@
                                             </div>
 
                                             <div class="row mt-2">
-                                                <img src="" class="img-fluid" id="imageFrame">    
+                                                <img src="" class="img-fluid" id="imageFrame">
                                             </div>
 
                                             <div class="row mt-2">
-                                                <button type="submit" class="d-none btn btn-success" id="btnSave" style="display: none;">Save</button>
+                                                <button type="button" class="d-none btn btn-success" id="btnSave" style="display: none;">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -68,6 +68,7 @@
 
 <script>
     const locations = {}
+
     function docReady(fn) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
             setTimeout(fn, 1)
@@ -154,7 +155,7 @@
             const html5Qrcode = new Html5Qrcode("qr-reader")
 
             Html5Qrcode.getCameras().then(devices => {
-                if(devices && devices.length){
+                if (devices && devices.length) {
                     var cameraId = devices[0]
                 }
             }).catch(err => {
@@ -196,23 +197,23 @@
 
         })
 
-        $('#photo').on('change', function(e){
+        $('#photo').on('change', function(e) {
             const files = e.target.files[0]
             console.log(console.log(files.type))
             const allowedFile = ['image/png', 'image/jpg', 'image/jpeg']
             let isValid = false
 
             allowedFile.map((entry, i) => {
-                if(entry === files.type){
+                if (entry === files.type) {
                     isValid = true
                 }
             })
 
-            if(!isValid){
+            if (!isValid) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Format file yang anda unggah tidak didukung'
-                }).then(()=> {
+                }).then(() => {
                     $(this).val('')
                 })
 
@@ -220,7 +221,7 @@
             }
 
             const reader = new FileReader()
-            reader.onload = function(e){
+            reader.onload = function(e) {
                 $('#imageFrame').attr('src', e.target.result)
             }
 
@@ -228,6 +229,48 @@
 
             $('#btnSave').removeClass('d-none')
             $('#btnSave').show()
+        })
+
+        $('#btnSave').on('click', function(e) {
+            console.log(e)
+            const formData = new FormData()
+            formData.append('functionKey', $('#functionKey').val())
+            formData.append('latitude', currentLatitude)
+            formData.append('longitude', currentLongitude)
+            formData.append('photo', document.getElementById('photo').files[0])
+
+            console.log(formData)
+
+            $.ajax({
+                url: "<?= site_url() ?>" + 'admin/presence/saveAttendance',
+                type: 'POST',
+                dataType: 'JSON',
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if(data.status === 'success'){
+                        Swal.fire({
+                            icon: 'success',
+                            title: data.message
+                        }).then(() => {
+                            window.location.replace("<?= site_url() ?>" + 'employee');
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'warning',
+                            title: data.message
+                        })
+                    }
+                }, error: function(jqXHR, textStatus, errorThrown){
+                    console.error(`Couldn't get the posts: ${textStatus}, message: ${errorThrown}`)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ada masalah saat menghubungi server!'
+                    })
+                }
+            })
         })
     })
 </script>

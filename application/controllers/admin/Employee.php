@@ -80,9 +80,9 @@ class Employee extends CI_Controller{
                         coalesce(education, '') as education,
                         coalesce(phone_number, '') as phone_number,
                         gender,
-                        nik,
-                        kk,
-                        birthPlace as \"birthPlace\",
+                        coalesce(nik, '') as nik,
+                        coalesce(kk, '') as kk,
+                        coalesce(birthPlace, '') as \"birthPlace\",
                         coalesce(address, '') as address,
                         level,
                         birth_date as \"birth_date\"

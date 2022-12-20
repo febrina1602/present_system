@@ -84,3 +84,22 @@ CHANGE `latitude` `latitude_in` VARCHAR(100),
 CHANGE longitude longitude_in VARCHAR(100),
 ADD COLUMN latitude_out VARCHAR(100) AFTER longitude_in,
 ADD COLUMN longitude_out VARCHAR(100) AFTER latitude_out;
+
+-- update 2022-12-20
+
+CREATE TABLE employee_shift(
+	id BIGINT PRIMARY KEY NOT NULL,
+	employee__id BIGINT NOT NULL,
+	shift__id BIGINT NOT NULL,
+	activated VARCHAR(10) DEFAULT 'Yes',
+	CONSTRAINT employee_shift_to_employee FOREIGN KEY(employee__id)
+	REFERENCES employee(id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION,
+	CONSTRAINT employee_shift_to_shift FOREIGN KEY(shift__id)
+	REFERENCES shift(id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+);
+
+INSERT INTO employee_shift(employee__id, shift__id) VALUES(2022001, 1);
