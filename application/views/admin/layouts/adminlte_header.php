@@ -13,7 +13,8 @@
 <link endrel="stylesheet" href="<?= site_url() ?>assets/adminlte/plugins/summernote/summernote-bs4.min.css">
 <!-- end of adminlte assets -->
 
-<link rel="stylesheet" href="<?= site_url() ?>assets/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" href="<?= site_url() ?>assets/adminlte/plugins/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" href="<?= site_url() ?>assets/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 <link rel="stylesheet" href="<?= site_url() ?>assets/DataTables/dataTables.min.css">
 <link rel="stylesheet" href="<?= site_url() ?>assets/DataTables/DataTables-1.13.1/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="<?= site_url() ?>assets/DataTables/Buttons-2.3.3/css/buttons.bootstrap.min.css">
@@ -40,14 +41,13 @@
 <script src="<?= site_url() ?>assets/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="<?= site_url() ?>assets/adminlte/dist/js/adminlte.js"></script>
 <script src="<?= site_url() ?>assets/adminlte/dist/js/demo.js" defer></script>
+<script src="<?= site_url() ?>assets/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- <script src="<?= site_url() ?>assets/adminlte/dist/js/pages/dashboard.js"></script> -->
 <!-- end of adminlte assets -->
 
-<script src="<?= site_url() ?>assets/sweetalert2/sweetalert2.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/datatables.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/DataTables-1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/DataTables-1.13.1/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= site_url() ?>assets/sweetalert2/sweetalert2.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/datatables.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/DataTables-1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="<?= site_url() ?>assets/DataTables/DataTables-1.13.1/js/dataTables.bootstrap4.min.js"></script>
