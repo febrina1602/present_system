@@ -255,7 +255,7 @@
                             icon: 'success',
                             title: data.message
                         }).then(() => {
-                            window.location.replace("<?= site_url() ?>" + 'employee');
+                            window.location.replace("<?= site_url() ?>" + 'admin/presence');
                         })
                     }else{
                         Swal.fire({

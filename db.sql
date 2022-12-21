@@ -103,3 +103,10 @@ CREATE TABLE employee_shift(
 );
 
 INSERT INTO employee_shift(employee__id, shift__id) VALUES(2022001, 1);
+
+-- update 2022-12-21
+ALTER TABLE attendance
+MODIFY time_in TIME;
+
+ALTER TABLE attendance
+MODIFY time_out TIME;

@@ -20,7 +20,7 @@ class Presence extends CI_Controller{
                                                 from attendance a
                                                 left join user b on a.employee__id = b.employee__id
                                                 where date = '".date('Y-m-d')."'
-                                                and b.id = '".$this->session->userdata('employeeId')."'");
+                                                and b.id = '".$this->session->userdata('userId')."'");
 
         $data['todayPresence'] = null;
         if($getTodayPresence->num_rows() > 0){
@@ -37,6 +37,30 @@ class Presence extends CI_Controller{
         $data['functionkey'] = $functionkey;
 
         $this->template->display($data);
+    }
+
+    public function dataPut(){
+        if($this->input->is_ajax_request()){
+            $start = $this->input->post('startDate');
+            $end = $this->input->post('endDate');
+
+            $strQuery = "SELECT
+                            date,
+                            coalesce(time_in, '') as \"timeIn\",
+                            coalesce(time_out, '') as \"timeOut\",
+                            coalesce(shift_start, '') as \"shiftIn\",
+                            coalesce(shift_end, '') as \"shiftOut\",
+                            status
+                            from attendance
+                            where employee__id = '".$this->session->userdata('employeeId')."'
+                            and date between str_to_date('$start', '%Y-%m-%d') and str_to_date('$end', '%Y-%m-%d')
+                        ";
+
+            $query = $this->db->query($strQuery);
+            $returnValue = $query->result_array();
+
+            echo json_encode($returnValue);
+        }
     }
 
     public function saveAttendance(){
@@ -64,8 +88,6 @@ class Presence extends CI_Controller{
                 $data = [
                     'employee__id' => $this->session->userdata('employeeId'),
                     'date' => $currentDate,
-                    'time_in' => null,
-                    'time_out' => null,
                     'shift_start' => $shift->time_start,
                     'shift_end' => $shift->time_end,
                     'attachment' => $newFilename,
@@ -79,19 +101,29 @@ class Presence extends CI_Controller{
                         if((int)$this->input->post('functionKey') === 1){
                             $currentTimeIn = $checkAttendance->row('time_in');
             
-                            if($currentTime < $currentTimeIn){
+                            if(!is_null($currentTimeIn) && $currentTime < $currentTimeIn){
+                                $data['time_in'] = $currentTime;
+                                $data['longitude_in'] = $this->input->post('longitude_in');
+                                $data['latitude_in'] = $this->input->post('latitude_in');
+                            }else{
                                 $data['time_in'] = $currentTime;
                                 $data['longitude_in'] = $this->input->post('longitude_in');
                                 $data['latitude_in'] = $this->input->post('latitude_in');
                             }
                         }elseif((int)$this->input->post('functionKey') === 2){
                             $currentTimeOut = $checkAttendance->row('time_out');
-                            if($currentTime > $currentTimeOut){
+                            if(!is_null($currentTimeOut) && $currentTime > $currentTimeOut){
+                                $data['time_out'] = $currentTime;
+                                $data['longitude_out'] = $this->input->post('longitude_out');
+                                $data['latitude_out'] = $this->input->post('latitude_out');
+                            }else{
                                 $data['time_out'] = $currentTime;
                                 $data['longitude_out'] = $this->input->post('longitude_out');
                                 $data['latitude_out'] = $this->input->post('latitude_out');
                             }
                         }
+
+                        // print_r($data); exit;
 
                         $this->db->trans_start(FALSE);
 

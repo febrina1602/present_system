@@ -7,30 +7,30 @@
                         <tr align="center">
                             <th colspan="2"> Absensi Hari Ini </th>
                         </tr>
-    
+
                         <tr align="center">
                             <th> Absen Masuk </th>
                             <th> Absen Keluar </th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
                         <tr align="center">
-                            <?php if(isset($todayPresence)){ ?>
-                                <?php if(!is_null($todayPresence->timeIn)){ ?>
-                                    <td><?= $todayPresence->timeIn ?></td>
-                                <?php }else{ ?>
+                            <?php if (isset($todayPresence)) { ?>
+                                <?php if (!is_null($todayPresence->timeIn)) { ?>
+                                    <td class="<?= ($todayPresence->timeIn > $todayPresence->shiftStart) ? 'text-danger' : 'text-success' ?>"><?= $todayPresence->timeIn ?></td>
+                                <?php } else { ?>
                                     <td><a href="<?= site_url() ?>admin/presence/form/1" class="btn btn-primary"> Absen </a></td>
                                 <?php } ?>
 
-                                <?php if(!is_null($todayPresence->timeOut)){ ?>
-                                    <td><?= $todayPresence->timeOut ?></td>
-                                <?php }else{ ?>
+                                <?php if (!is_null($todayPresence->timeOut)) { ?>
+                                    <td class="<?= ($todayPresence->timeOut < $todayPresence->shiftEnd) ? 'text-danger' : 'text-success' ?>"><?= $todayPresence->timeOut ?></td>
+                                <?php } else { ?>
                                     <td><a href="<?= site_url() ?>admin/presence/form/2" class="btn btn-primary"> Absen </a></td>
                                 <?php } ?>
-                            <?php }else{ ?>
-                                    <td><a href="<?= site_url() ?>admin/presence/form/1" class="btn btn-primary"> Absen </a></td>
-                                    <td><a href="<?= site_url() ?>admin/presence/form/2" class="btn btn-primary"> Absen </a></td>
+                            <?php } else { ?>
+                                <td><a href="<?= site_url() ?>admin/presence/form/1" class="btn btn-primary"> Absen </a></td>
+                                <td><a href="<?= site_url() ?>admin/presence/form/2" class="btn btn-primary"> Absen </a></td>
                             <?php } ?>
                         </tr>
                     </tbody>
@@ -53,7 +53,7 @@
                         <div class="col-lg-2">
                             <input type="date" name="startDate" id="startDate" class="form-control">
                         </div>
-    
+
                         <div class="col-lg-2">
                             <label class="col-form-label"> Periode Selesai </label>
                         </div>
@@ -91,7 +91,48 @@
 </div>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
+        $('#btnGo').on('click', function(e) {
+            $('#frmHistory').validate({
+                submitHandler: function() {
+                    e.preventDefault()
 
+                    $.ajax({
+                        url: "<?= site_url() ?>" + "admin/presence/dataPut",
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: $('#frmHistory').serialize(),
+                        success: function(data) {
+                            let html = ''
+
+                            const isDataTable = $.fn.DataTable.isDataTable('#contentReplace');
+                            if (isDataTable) {
+                                $('#contentReplace').DataTable().clear().destroy();
+                            }
+
+                            if(data.length > 0){
+                                for(let i = 0; i < data.length; i++){
+                                    html += `<tr>
+                                        <td>${data[i].date}</td>
+                                        <td>${data[i].timeIn}</td>
+                                        <td>${data[i].timeOut}</td>
+                                        <td>${data[i].shiftIn}</td>
+                                        <td>${data[i].shiftOut}</td>
+                                        <td>${data[i].status}</td>
+                                    </tr>`
+                                }
+                            }else{
+                                html += `<tr>
+                                    <td colspan="6">Maaf, belum ada data</td>
+                                </tr>`
+                            }
+
+                            $('#showData').html(html)
+                            $('#contentReplace').show()
+                        }
+                    })
+                }
+            })
+        })
     })
 </script>
