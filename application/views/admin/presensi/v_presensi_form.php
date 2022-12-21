@@ -116,7 +116,6 @@
             const currentLatitude = locations.latitude
             const currentLongitude = locations.longitude
 
-            console.log(locations)
             const resultContainer = $('#qr-reader-results')
             let lastResult, countResults = 0
 
