@@ -67,8 +67,6 @@
 <script src="<?= site_url() ?>assets/qrcodescanner/qrcode-scanner.js" type="text/javascript"></script>
 
 <script>
-    const locations = {}
-
     function docReady(fn) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
             setTimeout(fn, 1)
@@ -85,6 +83,7 @@
         // alert(`${coordinates.latitude} - ${coordinates.longitude}`)
 
         // console.log(`${coordinates.latitude} - ${coordinates.longitude}`)
+        // console.log(locations)   
     }
 
     function error(err) {
@@ -97,16 +96,27 @@
         maximumAge: 5000
     }
 
+    function getPosition(options){
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, options)
+        })
+    }
+
     $(document).ready(async function() {
         // const currentLatitude = -6.203072698048657
         // const currentLongitude = 107.01945306759832
 
-        await navigator.geolocation.getCurrentPosition(success, error, options)
-
-        const currentLatitude = locations.latitude
-        const currentLongitude = locations.longitude
-
+        const position = await getPosition(options)
+        const locations = {
+            longitude: position.coords.longitude,
+            latitude: position.coords.longitude
+        }
+        
         docReady(function() {
+            const currentLatitude = locations.latitude
+            const currentLongitude = locations.longitude
+
+            console.log(locations)
             const resultContainer = $('#qr-reader-results')
             let lastResult, countResults = 0
 
@@ -122,7 +132,6 @@
                     const x = 111.12 * (latitude - currentLatitude)
                     const y = 111.12 * (longitude - currentLongitude) * Math.cos(latitude / 92.215)
                     const coordinates = Math.sqrt((x * x) + (y * y))
-                    console.log(coordinates)
 
                     if (parseFloat(coordinates) > parseFloat(0.01)) {
                         Swal.fire({
@@ -250,20 +259,21 @@
                 contentType: false,
                 cache: false,
                 success: function(data) {
-                    if(data.status === 'success'){
+                    if (data.status === 'success') {
                         Swal.fire({
                             icon: 'success',
                             title: data.message
                         }).then(() => {
-                            window.location.replace("<?= site_url() ?>" + 'admin/presence');
+                            window.location.replace("<?= site_url() ?>" + 'admin/history');
                         })
-                    }else{
+                    } else {
                         Swal.fire({
                             icon: 'warning',
                             title: data.message
                         })
                     }
-                }, error: function(jqXHR, textStatus, errorThrown){
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
                     console.error(`Couldn't get the posts: ${textStatus}, message: ${errorThrown}`)
                     Swal.fire({
                         icon: 'error',
