@@ -9,6 +9,7 @@ class Dashboard extends CI_Controller{
     }
 
     public function index(){
+        $data['title'] = '';
         $data['content'] = 'admin/v_dashboard'; //file view yang akan di load ada didalam folder views
 
         $this->template->display($data);
