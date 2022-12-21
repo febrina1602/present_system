@@ -4,7 +4,10 @@
             <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body d-flex justify-content-center">
-                        <div class="row">
+                        <div class="spinner-border text-info" role="status" id="loadingSection">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="row" id="buttonSection">
                             <div class="col-lg-12 d-flex justify-content-center">
                                 <label id="clock" class="control-label col-md-12" style="text-align: center;">
                                     <span id="Day"><?= date('d') ?></span>
@@ -32,11 +35,14 @@
 
 <script>
     $(document).ready(function() {
+        $('#buttonSection').hide()
         $.getJSON('https://api.ipify.org?format=json', function(json) {
             $.ajax({
                 url: "<?= site_url() ?>admin/presence/getTimeZoneFromIpAddress/" + json.ip,
                 type: 'POST',
                 success: function(data) {
+                    $('#buttonSection').show()
+                    $('#loadingSection').hide()
                     if (data !== '') {
                         if (data == 8) {
                             const now = new Date()
