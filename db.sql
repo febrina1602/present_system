@@ -110,3 +110,13 @@ MODIFY time_in TIME;
 
 ALTER TABLE attendance
 MODIFY time_out TIME;
+
+-- update 2022-12-22
+
+CREATE TABLE global_configuration(
+	id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	NAME VARCHAR(30),
+	VALUE VARCHAR(255)
+);
+
+insert into global_configuration(name, value) values('attendance_radius', '0.01');

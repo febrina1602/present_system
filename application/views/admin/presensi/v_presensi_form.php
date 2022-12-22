@@ -67,6 +67,7 @@
 <script src="<?= site_url() ?>assets/qrcodescanner/qrcode-scanner.js" type="text/javascript"></script>
 
 <script>
+    const radius = <?= $radius ?>
     function docReady(fn) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
             setTimeout(fn, 1)
@@ -132,7 +133,7 @@
                     const y = 111.12 * (longitude - currentLongitude) * Math.cos(latitude / 92.215)
                     const coordinates = Math.sqrt((x * x) + (y * y))
 
-                    if (parseFloat(coordinates) > parseFloat(0.01)) {
+                    if (parseFloat(coordinates) > parseFloat(radius)) {
                         Swal.fire({
                             icon: 'warning',
                             title: 'Anda diluar radius SMKN 5'

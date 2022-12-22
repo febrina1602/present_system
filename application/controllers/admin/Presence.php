@@ -22,6 +22,7 @@ class Presence extends CI_Controller
         $data['title'] = 'Presensi';
         $data['content'] = 'admin/presensi/v_presensi_form';
         $data['functionkey'] = $functionkey;
+        $data['radius'] = (int)$this->db->query("select value from global_configuration where name = 'attendance_radius'")->row('value');
 
         $this->template->display($data);
     }
