@@ -111,7 +111,7 @@
         const position = await getPosition(options)
         const locations = {
             longitude: position.coords.longitude,
-            latitude: position.coords.longitude
+            latitude: position.coords.latitude
         }
         
         docReady(function() {
