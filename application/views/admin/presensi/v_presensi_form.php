@@ -114,9 +114,10 @@
             latitude: position.coords.latitude
         }
         
+        const currentLatitude = locations.latitude
+        const currentLongitude = locations.longitude
+        
         docReady(function() {
-            const currentLatitude = locations.latitude
-            const currentLongitude = locations.longitude
 
             const resultContainer = $('#qr-reader-results')
             let lastResult, countResults = 0
