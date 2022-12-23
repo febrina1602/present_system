@@ -35,7 +35,7 @@
 
                                             <div class="row mt-2">
                                                 <div class="col-lg-12 d-flex justify-content-center">
-                                                    <button type="button" class="btn btn-danger" id="btnStop" style="display: none;">Batal</button>
+                                                    <button type="button" class="btn btn-danger d-none" id="btnStop">Batal</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -180,8 +180,8 @@
 
 
             $('#btnScan').on('click', async function(e) {
-                $(this).hide()
-                $('#loading').show()
+                $(this).addClass('d-none')
+                $('#loading').removeClass('d-none')
 
                 await html5Qrcode.start({
                     facingMode: "user"
@@ -190,14 +190,14 @@
                     qrbox: 250
                 }, onScanSuccess)
 
-                $('#loading').hide()
-                $('#btnStop').show()
+                $('#loading').addClass('d-none')
+                $('#btnStop').removeClass('d-none')
             })
 
             $('#btnStop').on('click', function() {
                 html5Qrcode.stop()
-                $(this).hide()
-                $('#btnScan').show()
+                $(this).addClass('d-none')
+                $('#btnScan').removeClass('d-none')
             })
 
             // const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
