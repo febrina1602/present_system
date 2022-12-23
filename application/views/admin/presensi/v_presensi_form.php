@@ -14,8 +14,8 @@
                                         <div class="qrcode-form">
                                             <div class="row">
                                                 <div class="col-lg-12 d-flex justify-content-center">
-                                                    <button type="button" class="btn" style="background-color:#476788;color: #fff" id="btnScan">Pindai Sekarang</button>
-                                                    <div class="spinner-border text-info" role="status" id="loading" style="display: none;">
+                                                    <button type="button" class="btn d-none" style="background-color:#476788;color: #fff" id="btnScan">Pindai Sekarang</button>
+                                                    <div class="spinner-border text-info" role="status" id="loading">
                                                         <span class="sr-only">Loading...</span>
                                                     </div>
                                                 </div>
@@ -168,6 +168,8 @@
             Html5Qrcode.getCameras().then(devices => {
                 if (devices && devices.length) {
                     var cameraId = devices[0]
+                    $('#loading').addClass('d-none')
+                    $('#btnScan').removeClass('d-none')
                 }
             }).catch(err => {
                 console.error(err)
